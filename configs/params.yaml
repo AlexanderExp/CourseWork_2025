@@ -1,0 +1,83 @@
+# -----------------------------------------------------------------------------
+# Paths & DataConfig
+# -----------------------------------------------------------------------------
+data:
+  train:  "VisDroneTractor-4/train.txt"
+  val:    "VisDroneTractor-4/valid.txt"
+  config: "VisDroneTractor-4/data.yaml"
+
+model:
+  name:    "YOLOv9"
+  weights: "yolov9m.pt"
+
+# -----------------------------------------------------------------------------
+# Training Hyperparams
+# -----------------------------------------------------------------------------
+training:
+  epochs:             250
+  batch:              16
+  accumulate:         2               # эфф. batch=32 без роста памяти
+  imgsz:              640
+  multi_scale:        true
+  mosaic:             0.5
+  mixup:              0.2
+  augment:            true
+  device:             "cuda:0"
+  amp:                true            # mixed precision
+  ema:
+    enabled:          true
+    decay:            0.9999         # EMA decay
+  optimizer:
+    type:             "SGD"
+    lr:               0.01
+    weight_decay:     1e-4
+    momentum:         0.937
+  lr_scheduler:
+    type:             "OneCycleLR"   # OneCycle with warm-up
+    max_lr:           0.02
+    pct_start:        0.1
+    anneal_strategy:  "cos"
+  warmup_bias_lr:     true
+
+# -----------------------------------------------------------------------------
+# Loss Configuration
+# -----------------------------------------------------------------------------
+loss:
+  type:              "SIoU"          # SIoU вместо CIoU
+  alpha:             3.0             # α-IoU гиперпараметр (если используется)
+  focal_gamma:       2.0
+  cls_pw:            3.0
+  box_pw:            0.05
+
+# -----------------------------------------------------------------------------
+# Dataloader: Class Balance & Mining
+# -----------------------------------------------------------------------------
+dataloader:
+  oversample:
+    class:            "people"
+    factor:           2               # дублировать «people» в батче
+  hard_mining:
+    enabled:          true
+    iou_threshold:    0.5
+    mining_ratio:     0.2             # % «трудных» примеров в каждом батче
+
+# -----------------------------------------------------------------------------
+# Test-Time Augmentation
+# -----------------------------------------------------------------------------
+tta:
+  enabled:            true
+  scales:             [0.75, 1.0, 1.25]
+  flips:              ["horizontal", "vertical"]
+
+# -----------------------------------------------------------------------------
+# Post‑processing (Inference)
+# -----------------------------------------------------------------------------
+postproc:
+  conf_threshold:     0.34
+  nms_iou_threshold:  0.50
+
+# -----------------------------------------------------------------------------
+# Output
+# -----------------------------------------------------------------------------
+output:
+  metrics:            "metrics_overfit.json"

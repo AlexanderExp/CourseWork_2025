@@ -1,0 +1,36 @@
+# configs/params_tta.yaml
+
+data:
+  # Список тестовых изображений
+  test:   "VisDroneTractor-4/test.txt"
+  val: "VisDroneTractor-4/valid.txt"
+
+  # Файл с описанием классов и путей к директориям
+  config: "VisDroneTractor-4/data.yaml"
+
+model:
+  # Та же модель, что и в обучении
+  name:    "YOLOv9"
+  # Веса обученной модели (например, лучший чекпоинт из runs/train)
+  weights: "yolov9m.pt"
+
+training:
+  # Параметры Test-Time Augmentation
+  tta:
+    # Три масштаба: оригинал, +20%, –20%
+    scales: [1.0, 1.2, 0.8]
+    # Горизонтальное отражение для каждого масштаба
+    flip:   "horizontal"
+  # Порог уверенности для отсева детекций
+  conf_threshold: 0.25
+  # Порог IoU для объединённого NMS
+  iou_threshold:  0.50
+  # Максимальное число боксов после NMS
+  max_detections: 300
+
+output:
+  # Куда сохранять результаты инференса (c предсказаниями и метриками)
+  dir:         "runs/tta"
+  metrics:     "metrics_tta.json"
+
+device: "cuda:0"

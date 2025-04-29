@@ -1,0 +1,74 @@
+stages:
+  train:
+    cmd: python -m mlpt.models.train --config configs/params_baseline.yaml
+    deps:
+      - mlpt/models/train.py
+      - configs/params_baseline.yaml
+      - VisDroneTractor-4
+      - mlpt/utils/utils.py
+      - mlpt/utils/tb_logger.py
+    outs:
+      - metrics.json
+
+  overfit:
+    cmd: python -m mlpt.models.train --config configs/params_overfit.yaml
+    deps:
+      - mlpt/models/train.py
+      - configs/params_overfit.yaml
+      - VisDroneTractor-4
+      - mlpt/utils/utils.py
+      - mlpt/utils/tb_logger.py
+    metrics:
+      - metrics_overfit.json:
+          cache: false
+
+  overfit_hard:
+    cmd: python -m mlpt.models.train --config configs/params.yaml
+    deps:
+      - mlpt/models/train.py
+      - configs/params.yaml
+      - VisDroneTractor-4
+      - mlpt/utils/utils.py
+      - mlpt/utils/tb_logger.py
+    metrics:
+      - metrics_overfit_hard.json:
+          cache: false
+
+  overfit_hard_2:
+    cmd: python -m mlpt.models.train --config configs/params_overfit_hard_2.yaml
+    deps:
+      - mlpt/models/train.py
+      - configs/params_overfit_hard_2.yaml
+      - VisDroneTractor-4
+      - mlpt/utils/utils.py
+      - mlpt/utils/tb_logger.py
+    metrics:
+      - metrics_overfit_hard_2.json:
+          cache: false
+
+  overfit_exp3:
+    cmd: python -m mlpt.models.train --config configs/params_overfit_exp3.yaml
+    deps:
+      - mlpt/models/train.py
+      - configs/params_overfit_exp3.yaml
+      - VisDroneTractor-4
+      - mlpt/utils/utils.py
+      - mlpt/utils/tb_logger.py
+    metrics:
+      - metrics_overfit_exp3.json:
+          cache: false
+
+  tta:
+    cmd: python -m mlpt.models.infer \
+            --config configs/params_tta.yaml \
+            --tta "scale:1.0,scale:1.2,scale:0.8" \
+            --tta "flip:horizontal"
+    deps:
+      - mlpt/models/train.py
+      - configs/params_tta.yaml
+      - VisDroneTractor-4
+      - mlpt/utils/utils.py
+      - mlpt/utils/tb_logger.py
+    metrics:
+      - metrics_tta.json:
+          cache: false

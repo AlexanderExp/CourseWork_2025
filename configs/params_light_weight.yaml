@@ -1,0 +1,17 @@
+data:
+  train: "sh17-dataset/archive/updated_train_files.txt"  # файл с путями к тренировочным изображениям
+  val: "sh17-dataset/archive/updated_val_files.txt"       # файл с путями к валидационным изображениям
+  config: "sh17-dataset/archive/sh17_kaggle.yaml"         # конфигурация датасета
+
+model:
+  name: "YOLOv11"
+  weights: "sh17-dataset/archive/yolo11m.pt"
+
+training:
+  epochs: 1         # обучаем только одну эпоху
+  batch: 1          # минимальный размер батча, чтобы сэкономить время
+  imgsz: 320        # используем уменьшенное разрешение изображений
+  mosaic: 0.0       # отключаем Mosaic аугментацию
+  mixup: 0.0        # отключаем MixUp
+  augment: False    # отключаем прочие аугментации
+  fraction: 0.01    # используем только 1% данных

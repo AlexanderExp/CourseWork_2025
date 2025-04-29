@@ -1,0 +1,6 @@
+[submodule "submodules/ultralytics"]
+	path = submodules/ultralytics
+	url = https://github.com/AlexanderExp/ultralytics
+[submodule "mlpt/modules/ultralytics"]
+	path = mlpt/modules/ultralytics
+	url = https://github.com/AlexanderExp/ultralytics.git

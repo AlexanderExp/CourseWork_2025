@@ -1,0 +1,39 @@
+data:
+  train:  "VisDroneTractor-4/train.txt"
+  val:    "VisDroneTractor-4/valid.txt"
+  config: "VisDroneTractor-4/data.yaml"
+
+model:
+  # Если даже после оптимизаций память всё ещё велика — можно попробовать yolov9s.pt
+  name:    "YOLOv9"
+  weights: "yolov9m.pt"
+
+training:
+  epochs:  50
+
+  batch:   8
+
+  imgsz:   1024
+
+  # учебный план
+  lr0:            0.01
+  lrf:            0.2
+  momentum:       0.937
+  weight_decay:   0.0005
+  warmup_epochs:  3
+
+  # аугментации
+  mosaic:   1
+  mixup:    0.2
+  hsv_h:    0.015
+  hsv_s:    0.7
+  hsv_v:    0.4
+  fliplr:   0.5
+  augment:  True
+  fraction: 1.0
+
+  # оптимизация памяти
+  precision:   16     # FP16 / mixed‑precision
+  accumulate:  2      # gradient accumulation: effective batch=8×2=16
+
+  device:      "cuda:0"

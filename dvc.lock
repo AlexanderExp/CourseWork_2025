@@ -1,0 +1,31 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python -m mlpt.models.train --config configs/params_baseline.yaml
+    deps:
+    - path: VisDroneTractor-4
+      hash: md5
+      md5: bedf790c8352b164d313ef7d5c25f514.dir
+      size: 1549418075
+      nfiles: 9207
+    - path: configs/params_baseline.yaml
+      hash: md5
+      md5: 5ac7a52e1d2eb65afee8c5cb860e6463
+      size: 904
+    - path: mlpt/models/train.py
+      hash: md5
+      md5: e707dede82e416e6f7b718374b32e47c
+      size: 2092
+    - path: mlpt/utils/tb_logger.py
+      hash: md5
+      md5: 78b04e9a58cb1fea930397831dd41f2a
+      size: 814
+    - path: mlpt/utils/utils.py
+      hash: md5
+      md5: 64a9b77c76defa1b73669476890c804a
+      size: 7304
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: adbf525fbce8c1b06924f7c16f7dfecc
+      size: 209

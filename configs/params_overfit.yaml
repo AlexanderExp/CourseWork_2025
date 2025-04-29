@@ -1,0 +1,32 @@
+data:
+  train:  "VisDroneTractor-4/train.txt"
+  val:    "VisDroneTractor-4/valid.txt"
+  config: "VisDroneTractor-4/data.yaml"
+
+model:
+  name:    "YOLOv9"
+  weights: "yolov9m.pt"
+
+training:
+  epochs:      250           # чуть больше эпох для донастройки
+  batch:       16            # сохраняем прежний batch
+  accumulate:  2             # градиентное накопление для эфф. batch=32 без ростa памяти
+  imgsz:       640
+  multi_scale: true          # включаем multi-scale
+  mosaic:      0.5           # умеренная мозаика
+  mixup:       0.2           # небольшая mixup-аугментация
+  augment:     true          # общий флаг аугментаций
+  device:      "cuda:0"
+  lr_scheduler: "cosine"     # косинусный спад
+  warmup_bias_lr: true       # warm-up для bias
+  loss:
+    type:        "focal"     # переключаемся на focal loss
+    focal_gamma: 2.0
+    cls_pw:      3.0         # повышаем вес cls‑loss
+    box_pw:      0.05
+
+balance_cls:
+  people:   2.0              # повышаем вес «people» в даталоадере/лоссе
+  tractor:  1.0
+  van:      1.0
+  car:      1.0
