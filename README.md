@@ -7,14 +7,14 @@
 
 ## Быстрый старт
 
-# установка
+#### установка
 git clone <repo>
 cd PPE-Detection
 pip install -r requirements.txt          # PyTorch-CUDA, DVC, TensorBoard…
 pip install -e .                         # локальный форк ultralytics (editable)
 
-# запуск baseline-обучения
+#### запуск baseline-обучения
 dvc exp run                              # использует configs/params_baseline.yaml
 
-# лог-кривые
+#### лог-кривые
 tensorboard --logdir tensorboard_logs
